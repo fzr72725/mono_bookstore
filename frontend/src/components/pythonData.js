@@ -13,7 +13,7 @@ const GetData = () => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        const response = await fetch('/api/v1/buildDataFrame');
+        const response = await fetch('/api/v1/previewDataFrame');
         const data = await response.json();
         setData(data);
       } catch(err) {

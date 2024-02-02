@@ -64,7 +64,7 @@ const GetComponents = () => {
       {showTableList ? <GetTableFieldNames /> : <p></p>}
       <p></p>
       <button onClick={handlePythonDataClick}>
-        Get Python Data
+        Preview Python Data
       </button>
       {showPythonData ? <GetData /> : <p></p>}
       <label> Table Name: </label>

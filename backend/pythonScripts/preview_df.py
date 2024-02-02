@@ -13,5 +13,5 @@ df = json_to_df('resources/paveSchema.json')
 
 # dataToSendBack = "This is from Python"
 # print(dataToSendBack)
-print(df.head(30).to_html())
+print(df.head(1).to_html())
 sys.stdout.flush()

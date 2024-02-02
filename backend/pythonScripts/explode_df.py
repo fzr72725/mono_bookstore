@@ -14,5 +14,5 @@ id_field_list = [x.strip() for x in sys.argv[2].split(',')]
 
 df_flatten, missed = df_explode(df, table_field_name, id_field_list)
 
-print(df_flatten.head(30).to_html())
+print(df_flatten.head(5).to_html())
 sys.stdout.flush()

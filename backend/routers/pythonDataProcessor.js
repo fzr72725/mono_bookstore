@@ -3,9 +3,9 @@ import * as child from 'child_process';
 
 const router = express.Router();
 
-router.get('/api/v1/buildDataFrame', (req, res) => {
+router.get('/api/v1/previewDataFrame', (req, res) => {
     const execSync = child.execSync;
-    const result = execSync("/usr/local/Cellar/python@3.11/3.11.7_1/bin/python3 ./pythonScripts/build_df.py");
+    const result = execSync("/usr/local/Cellar/python@3.11/3.11.7_1/bin/python3 ./pythonScripts/preview_df.py");
     const data = result;
     res.json(String.fromCharCode(...data));
 })
