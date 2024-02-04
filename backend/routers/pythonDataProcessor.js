@@ -27,4 +27,14 @@ router.get('/api/v1/explodeTableField', (req, res) => {
     
 })
 
+router.get('/api/v1/freeFormQuery', (req, res) => {
+    const execSync = child.execSync;
+    const queryStr = req.query.queryStr;
+    const idColumnNames = req.query.idColumnNames
+    const result = execSync(`python3 ${process.env.PYTHON_CODE_PATH}/free_form_condition.py "${queryStr}" "${idColumnNames}"`);
+    const data = result;
+    res.json(String.fromCharCode(...data));
+    
+})
+
 export {router};

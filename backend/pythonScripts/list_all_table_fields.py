@@ -6,7 +6,7 @@ from pandas import json_normalize
 from methods import *
 import os
 
-df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchema.json')
+df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchemaEquity.json')
 table_field_names = find_all_table_fields(df)
 
 # print(dataToSendBack)

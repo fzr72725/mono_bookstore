@@ -7,10 +7,13 @@ from pandas import json_normalize
 from methods import *
 
 df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchemaEquity.json')
-table_field_name = sys.argv[1]
+df_query_str = sys.argv[1]
 id_field_list = [x.strip() for x in sys.argv[2].split(',')]
+df_result = eval(df_query_str)
 
-df_flatten, missed = df_explode(df, table_field_name, id_field_list)
-
-print(df_flatten.head(5).to_html())
+print(df_result[id_field_list].to_html())
 sys.stdout.flush()
+
+# df[df['vestingEvents'].str[-1].str['totalVested'] != df['shares']]
+
+# df[df['email']=='dhills@pave500-pave-internal.com']
