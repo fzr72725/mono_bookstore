@@ -7,7 +7,9 @@ WORKDIR /ui
 COPY frontend/ ./frontend/
 ## RUN by default run things from root workdir of the image
 ## go into image workdir for frontend and build frontend artifact via npm
-RUN cd frontend && npm install && npm run build
+RUN cd frontend && npm i && npm install typescript@4.9.5 -g
+## sadly jsx react flag has to be manually added
+RUN cd frontend && cp configFiles/tsconfig.json tsconfig.json && npm run build
 
 # then build the whole app (frontend + backend)
 FROM node:19 AS app-build
