@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 
 
 // const Banner = () => {
@@ -55,14 +55,14 @@ const GetTableFieldNames = () => {
   );
 };
 
-const ExplodeTableField = (props) => {
+const ExplodeTableField = (input: any) => {
   const [data, setData] = useState();
 
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(props)}`);
-        const response = await fetch(`/api/v1/explodeTableField?tableFieldName=${props.tableFieldName}&idFields=${props.idFields}`);
+        console.log(`ZZZZZ ${JSON.stringify(input)}`);
+        const response = await fetch(`/api/v1/explodeTableField?tableFieldName=${input.tableFieldName}&idFields=${input.idFields}`);
         const data = await response.json();
         setData(data);
       } catch(err) {
@@ -80,14 +80,14 @@ const ExplodeTableField = (props) => {
   );
 };
 
-const FreeFormQuery = (props) => {
+const FreeFormQuery = (input: any) => {
   const [data, setData] = useState();
 
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(props)}`);
-        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${props.queryStr}&idColumnNames=${props.idColumnNames}`);
+        console.log(`ZZZZZ ${JSON.stringify(input)}`);
+        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${input.queryStr}&idColumnNames=${input.idColumnNames}`);
         const data = await response.json();
         setData(data);
       } catch(err) {

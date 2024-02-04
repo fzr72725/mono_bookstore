@@ -1,8 +1,12 @@
-import logo from '../logo.svg';
+//import logo from '../logo.svg';
 import '../App.css';
 import Books from './books'
 import {GetData, GetTableFieldNames, ExplodeTableField, FreeFormQuery} from './pythonData'
-import { useState } from "react";
+import React, { useState } from "react";
+
+// interface SyntheticEvent<T> {
+//   target: EventTarget & T;
+// }
 
 const GetComponents = () => {
   const [showBookList, setShowBookList] = useState(false);
@@ -27,12 +31,12 @@ const GetComponents = () => {
     setShowPythonData(true);
   }
 
-  const handleTableFieldNameChange = (event) => {
+  const handleTableFieldNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTableFieldName(event.target.value);
     console.log('value is:', event.target.value);
   }
 
-  const handleIdFieldsChange = (event) => {
+  const handleIdFieldsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIdFields(event.target.value);
     console.log('value is:', event.target.value);
   }
@@ -41,12 +45,12 @@ const GetComponents = () => {
     setShowExplodedTableData(true);
   }
 
-  const handleQueryStrChange = (event) => {
+  const handleQueryStrChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQueryStr(event.target.value);
     console.log('value is:', event.target.value);
   }
 
-  const handleIdColNamesChange = (event) => {
+  const handleIdColNamesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIdColumnNames(event.target.value);
     console.log('value is:', event.target.value);
   }
