@@ -1,7 +1,11 @@
-import {useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
+
+interface Book {
+  name: '',
+};
 
 const Books = () => {
-    const [bookData, setBookData] = useState();
+    const [bookData, setBookData] = useState<Book[]>([]);
     useEffect(() => {
       const fecthBookData = async () => {
         try {
