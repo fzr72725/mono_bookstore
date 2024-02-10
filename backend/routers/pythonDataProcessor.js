@@ -1,10 +1,21 @@
 import express from 'express';
+import { getDataFetcherFile } from './downloads'
 import * as child from 'child_process';
 
 const router = express.Router();
-router.get('/api/v1/previewDataFrame', (req, res) => {
+router.get('/api/v1/previewDataFrame', async (req, res) => {
+    const integrationId = req.query.integrationId;
+    const companyId = req.query.companyId;
+    const fileName = req.query.fileName;
+    const fileData= await getDataFetcherFile(
+      'zeestache',
+       integrationId,
+       companyId,
+       fileName,)
+    const json = JSON.parse(fileData[0].toString('utf-8'));
+
     const execSync = child.execSync;
-    const result = execSync(`python3 ${process.env.PYTHON_CODE_PATH}/preview_df.py`);
+    const result = execSync(`python3 ${process.env.PYTHON_CODE_PATH}/preview_df.py "${json}"`);
     const data = result;
     res.json(String.fromCharCode(...data));
 })

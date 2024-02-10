@@ -8,7 +8,8 @@ import os
 
 # print("python script is running now...")
 d = {'col1': [1, 2], 'col2': [3, 4]}
-df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchema.json')
+json_blob = sys.argv[1]
+df = json_str_to_df(json_blob)
 #df = pd.DataFrame(data=d)
 
 # dataToSendBack = "This is from Python"
