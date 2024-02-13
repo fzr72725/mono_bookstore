@@ -5,10 +5,23 @@ pd.set_option('display.max_colwidth', None)
 import json
 from pandas import json_normalize
 from methods import *
+from google.cloud import storage
 
-df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchemaEquity.json')
-table_field_name = sys.argv[1]
-id_field_list = [x.strip() for x in sys.argv[2].split(',')]
+## This script downloads the specified json file and provide a tablr preview of one record
+
+# Initialise a client off the current GCP project
+storage_client = storage.Client()
+bucket = storage_client.get_bucket('zeestache')
+
+json_file_path = sys.argv[1]
+# Create a blob object from the filepath
+blob = bucket.blob(json_file_path)
+# download the blob as json string
+data = blob.download_as_string(client=None)
+df = json_str_to_df(data)
+
+table_field_name = sys.argv[2]
+id_field_list = [x.strip() for x in sys.argv[3].split(',')]
 
 df_flatten, missed = df_explode(df, table_field_name, id_field_list)
 

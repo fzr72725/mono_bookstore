@@ -7,13 +7,13 @@ import React, {useState, useEffect} from "react";
 //   );
 // };
 
-const GetData = () => {
+const GetData = (input: any) => {
   const [data, setData] = useState();
 
   useEffect(() => {
     const fecthData = async () => {
       try {
-        const response = await fetch('/api/v1/previewDataFrame');
+        const response = await fetch(`/api/v1/previewDataFrame?integrationId=${input.integrationId}&companyId=${input.companyId}&fileName=${input.fileName}`);
         const data = await response.json();
         setData(data);
       } catch(err) {
@@ -21,7 +21,7 @@ const GetData = () => {
       }
     }
     fecthData();
-  }, []);
+  },);
   //console.log(`ZZZZZ ${JSON.stringify(data)}`)
   
   return (

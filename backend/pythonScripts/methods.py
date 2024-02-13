@@ -27,7 +27,8 @@ def json_str_to_df(json_str):
     Returns:
         df
     """
-    df = json_normalize(json_str)
+    list_raw = json.loads(json_str)
+    df = json_normalize(list_raw)
     return df
 
 def find_all_table_fields(df):
