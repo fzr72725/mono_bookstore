@@ -2,29 +2,18 @@
 import '../App.css';
 import Books from './books'
 import {GetData, GetTableFieldNames, ExplodeTableField, FreeFormQuery} from './pythonData'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // interface SyntheticEvent<T> {
 //   target: EventTarget & T;
 // }
 
 const GetComponents = () => {
+  // preview
   const [integrationId, showIntegratinId] = useState('');
   const [companyId, showCompanyId] = useState('');
   const [fileName, showFileName] = useState('');
   const [showPythonData, setShowPythonData] = useState(false);
-  const [queryStr, setQueryStr] = useState('');
-  const [showFreeFormQueryResult, setShowFreeFormQueryResult] = useState(false);
-
-  const [showTableList, setShowTableList] = useState(false);
-  const [tableFieldName, setTableFieldName] = useState('');
-
-  const [idFields, setIdFields] = useState('');
-  const [showExplodedTableData, setShowExplodedTableData] = useState(false);
-  const [queryStrExploded, setQueryStrExploded] = useState('');
-  const [showFreeFormQueryExplodedResult, setShowFreeFormQueryExplodedResult] = useState(false);
-
-
 
   const handleIntegrationIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     showIntegratinId(event.target.value);
@@ -42,32 +31,60 @@ const GetComponents = () => {
     setShowPythonData(true);
   }
 
+  // freeform query on preview
+  const [queryStr, setQueryStr] = useState('');
+  const [showFreeFormQueryResult, setShowFreeFormQueryResult] = useState(false);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log(`Free-form query is: ${queryStr}`);
+    }, 10000); // wait for 10 secs for the typing to finish
+    return () => clearTimeout(delayDebounceFn);
+  }, [queryStr]);
+
   const handleQueryStrChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQueryStr(event.target.value);
-    //console.log('value is:', event.target.value);
   }
 
   const handleFreeFormQueryClick = () => {
     setShowFreeFormQueryResult(true);
   }
 
+  // table fields list on preview
+  const [showTableList, setShowTableList] = useState(false);
+
   const handleTableListClick = () => {
     setShowTableList(true);
   }
 
+  // explode on preview
+  const [tableFieldName, setTableFieldName] = useState('');
+  const [idFields, setIdFields] = useState('');
+  const [showExplodedTableData, setShowExplodedTableData] = useState(false);
+
   const handleTableFieldNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTableFieldName(event.target.value);
-    //console.log('value is:', event.target.value);
   }
+  
 
   const handleIdFieldsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIdFields(event.target.value);
-    //console.log('value is:', event.target.value);
   }
 
   const handleExplodedTableDataClick = () => {
     setShowExplodedTableData(true);
   }
+
+  // freeform query on exploded
+  const [queryStrExploded, setQueryStrExploded] = useState('');
+  const [showFreeFormQueryExplodedResult, setShowFreeFormQueryExplodedResult] = useState(false);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log(`Free-form query (on exploded df) is: ${queryStrExploded}`);
+    }, 10000); // wait for 10 secs for the typing to finish
+    return () => clearTimeout(delayDebounceFn);
+  }, [queryStrExploded]);
 
   const handleFreeFormQueryExplodedClick = () => {
     setShowFreeFormQueryExplodedResult(true);
@@ -75,9 +92,9 @@ const GetComponents = () => {
 
   const handleQueryStrExplodedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQueryStrExploded(event.target.value);
-    //console.log('value is:', event.target.value);
   }
 
+  // clear page
   const handleClearClick = () => {
     showIntegratinId('');
     showCompanyId('');
@@ -206,9 +223,6 @@ const GetComponents = () => {
         Get Query Result
       </button>
       {showFreeFormQueryExplodedResult ? <FreeFormQuery queryStrExploded={queryStrExploded} isExploded="true"/> : <p></p>}
-
-
-
     </div>
   );
 };

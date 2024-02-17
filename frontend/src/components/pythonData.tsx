@@ -61,7 +61,6 @@ const ExplodeTableField = (input: any) => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(input)}`);
         const response = await fetch(`/api/v1/explodeTableField?tableFieldName=${input.tableFieldName}&idFields=${input.idFields}`);
         const data = await response.json();
         setData(data);
@@ -86,7 +85,6 @@ const FreeFormQuery = (input: any) => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ input: ${JSON.stringify(input)}`)
         const isExploded = input.isExploded
         let queryStr = null;
         if (isExploded === "true") {
