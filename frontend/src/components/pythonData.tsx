@@ -86,8 +86,15 @@ const FreeFormQuery = (input: any) => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(input)}`);
-        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${input.queryStr}&idColumnNames=${input.idColumnNames}`);
+        console.log(`ZZZZZ input: ${JSON.stringify(input)}`)
+        const isExploded = input.isExploded
+        let queryStr = null;
+        if (isExploded === "true") {
+          queryStr = input.queryStrExploded;
+        } else {
+          queryStr = input.queryStr;
+        };
+        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${queryStr}&isExploded=${input.isExploded}`);
         const data = await response.json();
         setData(data);
       } catch(err) {

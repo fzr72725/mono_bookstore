@@ -53,8 +53,11 @@ router.get('/api/v1/explodeTableField', (req, res) => {
 router.get('/api/v1/freeFormQuery', (req, res) => {
     const execSync = child.execSync;
     const queryStr = req.query.queryStr;
-    const idColumnNames = req.query.idColumnNames
-    const result = execSync(`python3 ${process.env.PYTHON_CODE_PATH}/free_form_condition.py "${queryStr}" "${idColumnNames}"`);
+    const isExploded = req.query.isExploded;
+    console.log(`ZZZZZ queryStr: ${queryStr}`);
+    console.log(`ZZZZZ isExploded: ${isExploded}`);
+    const filePath = Cache.get('currentPath');
+    const result = execSync(`python3 ${process.env.PYTHON_CODE_PATH}/free_form_condition.py "${filePath}" "${queryStr}" "${isExploded}"`);
     const data = result;
     res.json(String.fromCharCode(...data));
 })

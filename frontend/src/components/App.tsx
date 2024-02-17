@@ -9,14 +9,20 @@ import React, { useState } from "react";
 // }
 
 const GetComponents = () => {
-  const [showPythonData, setShowPythonData] = useState(false);
   const [integrationId, showIntegratinId] = useState('');
   const [companyId, showCompanyId] = useState('');
   const [fileName, showFileName] = useState('');
+  const [showPythonData, setShowPythonData] = useState(false);
+  const [queryStr, setQueryStr] = useState('');
+  const [showFreeFormQueryResult, setShowFreeFormQueryResult] = useState(false);
+
   const [showTableList, setShowTableList] = useState(false);
   const [tableFieldName, setTableFieldName] = useState('');
+
   const [idFields, setIdFields] = useState('');
   const [showExplodedTableData, setShowExplodedTableData] = useState(false);
+  const [queryStrExploded, setQueryStrExploded] = useState('');
+  const [showFreeFormQueryExplodedResult, setShowFreeFormQueryExplodedResult] = useState(false);
 
 
 
@@ -34,6 +40,15 @@ const GetComponents = () => {
 
   const handlePreviewDataClick = () => {
     setShowPythonData(true);
+  }
+
+  const handleQueryStrChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryStr(event.target.value);
+    //console.log('value is:', event.target.value);
+  }
+
+  const handleFreeFormQueryClick = () => {
+    setShowFreeFormQueryResult(true);
   }
 
   const handleTableListClick = () => {
@@ -54,16 +69,31 @@ const GetComponents = () => {
     setShowExplodedTableData(true);
   }
 
+  const handleFreeFormQueryExplodedClick = () => {
+    setShowFreeFormQueryExplodedResult(true);
+  }
+
+  const handleQueryStrExplodedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryStrExploded(event.target.value);
+    //console.log('value is:', event.target.value);
+  }
+
   const handleClearClick = () => {
     showIntegratinId('');
     showCompanyId('');
     showFileName('');
     setShowPythonData(false);
+    setQueryStr('');
+    setShowFreeFormQueryResult(false);
+
     setShowTableList(false);
     setTableFieldName('');
+
     setIdFields('');
     setShowExplodedTableData(false);
-
+    setQueryStrExploded('');
+    setShowFreeFormQueryExplodedResult(false);
+    
   }
 
   return (
@@ -108,12 +138,33 @@ const GetComponents = () => {
       </button>
       {showPythonData ? <GetData integrationId={integrationId} companyId={companyId} fileName={fileName}/> : <p></p>}
       <p></p>
+      <label> Query: </label>
+      <p></p>
+      <label> (Example: df[df['email'] == 'john@gmail.com']) </label>
+      <input
+        type="text"
+        id="queryStr"
+        name="queryStr"
+        onChange={handleQueryStrChange}
+        value={queryStr}
+        autoComplete="off"
+      />
+      <p></p>
+      <button onClick={handleFreeFormQueryClick}>
+        Get Query Result
+      </button>
+      {showFreeFormQueryResult ? <FreeFormQuery queryStr={queryStr} isExploded="false"/> : <p></p>}
+
+
       <button onClick={handleTableListClick}>
         Get Full List of Explodable Fields
       </button>
       <p></p>
       {showTableList ? <GetTableFieldNames /> : <p></p>}
       <p></p>
+
+
+
       <label> Table Name: </label>
       <input
         type="text"
@@ -138,6 +189,25 @@ const GetComponents = () => {
         Get Exploded Table Data
       </button>
       {showExplodedTableData ? <ExplodeTableField tableFieldName={tableFieldName} idFields={idFields}/> : <p></p>}
+      <p></p>
+      <label> Query Exploded Table Data: </label>
+      <p></p>
+      <label> (Example: df[df['email'] == 'john@gmail.com']) </label>
+      <input
+        type="text"
+        id="queryStrExploded"
+        name="queryStrExploded"
+        onChange={handleQueryStrExplodedChange}
+        value={queryStrExploded}
+        autoComplete="off"
+      />
+      <p></p>
+      <button onClick={handleFreeFormQueryExplodedClick}>
+        Get Query Result
+      </button>
+      {showFreeFormQueryExplodedResult ? <FreeFormQuery queryStrExploded={queryStrExploded} isExploded="true"/> : <p></p>}
+
+
 
     </div>
   );
