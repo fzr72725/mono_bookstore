@@ -23,8 +23,9 @@ data = blob.download_as_string(client=None)
 #df = pd.DataFrame(data=d)
 
 df = json_str_to_df(data)
-global df_cache
-df_cache = dict(df=df)
+
+# cache df to a pickle file
+df.to_pickle("./df_from_json.pkl")  
 
 print(df.head(1).to_html())
 sys.stdout.flush()
