@@ -21,6 +21,7 @@ RUN apt-get update || : && apt-get install python3 -y \
     python3-pip
 RUN python3 -m pip install wheel
 RUN python3 -m pip install pandas
+RUN python3 -m pip install --upgrade google-cloud-storage
 RUN cd backend && npm install
 ENV PYTHON_CODE_PATH /app/backend/pythonScripts
 ENV RESOURCE_FILE_PATH /app/backend/resources

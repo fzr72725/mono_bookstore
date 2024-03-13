@@ -5,13 +5,28 @@ import json
 from pandas import json_normalize
 from methods import *
 import os
+from google.cloud import storage
 
-# print("python script is running now...")
-d = {'col1': [1, 2], 'col2': [3, 4]}
-df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchema.json')
+## This script downloads the specified json file and provide a tablr preview of one record
+
+# Initialise a client off the current GCP project
+storage_client = storage.Client()
+bucket = storage_client.get_bucket('zeestache')
+
+json_file_path = sys.argv[1]
+# Create a blob object from the filepath
+blob = bucket.blob(json_file_path)
+# download the blob as json string
+data = blob.download_as_string(client=None)
+
+#d = {'col1': [1, 2], 'col2': [3, 4]}
 #df = pd.DataFrame(data=d)
 
-# dataToSendBack = "This is from Python"
-# print(dataToSendBack)
+df = json_str_to_df(data)
+
+# cache df to a pickle file
+df.to_pickle("./df_from_json.pkl")  
+
 print(df.head(1).to_html())
 sys.stdout.flush()
+os.system('cls' if os.name == 'nt' else 'clear')

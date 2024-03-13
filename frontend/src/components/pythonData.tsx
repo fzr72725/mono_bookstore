@@ -7,13 +7,13 @@ import React, {useState, useEffect} from "react";
 //   );
 // };
 
-const GetData = () => {
+const GetData = (input: any) => {
   const [data, setData] = useState();
 
   useEffect(() => {
     const fecthData = async () => {
       try {
-        const response = await fetch('/api/v1/previewDataFrame');
+        const response = await fetch(`/api/v1/previewDataFrame?integrationId=${input.integrationId}&companyId=${input.companyId}&fileName=${input.fileName}`);
         const data = await response.json();
         setData(data);
       } catch(err) {
@@ -21,7 +21,7 @@ const GetData = () => {
       }
     }
     fecthData();
-  }, []);
+  },);
   //console.log(`ZZZZZ ${JSON.stringify(data)}`)
   
   return (
@@ -61,7 +61,6 @@ const ExplodeTableField = (input: any) => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(input)}`);
         const response = await fetch(`/api/v1/explodeTableField?tableFieldName=${input.tableFieldName}&idFields=${input.idFields}`);
         const data = await response.json();
         setData(data);
@@ -86,8 +85,14 @@ const FreeFormQuery = (input: any) => {
   useEffect(() => {
     const fecthData = async () => {
       try {
-        console.log(`ZZZZZ ${JSON.stringify(input)}`);
-        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${input.queryStr}&idColumnNames=${input.idColumnNames}`);
+        const isExploded = input.isExploded
+        let queryStr = null;
+        if (isExploded === "true") {
+          queryStr = input.queryStrExploded;
+        } else {
+          queryStr = input.queryStr;
+        };
+        const response = await fetch(`/api/v1/freeFormQuery?queryStr=${queryStr}&isExploded=${input.isExploded}`);
         const data = await response.json();
         setData(data);
       } catch(err) {

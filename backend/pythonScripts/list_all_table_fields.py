@@ -5,10 +5,9 @@ import json
 from pandas import json_normalize
 from methods import *
 import os
+from google.cloud import storage
 
-df = json_to_df(os.environ['RESOURCE_FILE_PATH'] + '/paveSchemaEquity.json')
+df = pd.read_pickle("./df_from_json.pkl")
 table_field_names = find_all_table_fields(df)
-
-# print(dataToSendBack)
 print(table_field_names)
 sys.stdout.flush()

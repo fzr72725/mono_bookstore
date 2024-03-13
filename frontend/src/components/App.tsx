@@ -2,73 +2,115 @@
 import '../App.css';
 import Books from './books'
 import {GetData, GetTableFieldNames, ExplodeTableField, FreeFormQuery} from './pythonData'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // interface SyntheticEvent<T> {
 //   target: EventTarget & T;
 // }
 
 const GetComponents = () => {
-  const [showBookList, setShowBookList] = useState(false);
+  // preview
+  const [integrationId, showIntegratinId] = useState('');
+  const [companyId, showCompanyId] = useState('');
+  const [fileName, showFileName] = useState('');
   const [showPythonData, setShowPythonData] = useState(false);
-  const [showTableList, setShowTableList] = useState(false);
-  const [tableFieldName, setTableFieldName] = useState('');
-  const [idFields, setIdFields] = useState('');
-  const [showExplodedTableData, setShowExplodedTableData] = useState(false);
-  const [queryStr, setQueryStr] = useState('');
-  const [idColumnNames, setIdColumnNames] = useState('');
-  const [showFreeFormQueryResult, setShowFreeFormQueryResult] = useState(false);
 
-  const handleGetBooksClick = () => {
-    setShowBookList(true);
+  const handleIntegrationIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    showIntegratinId(event.target.value);
   }
 
-  const handleTableListClick = () => {
-    setShowTableList(true);
+  const handleCompanyIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    showCompanyId(event.target.value);
   }
 
-  const handlePythonDataClick = () => {
+  const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    showFileName(event.target.value);
+  }
+
+  const handlePreviewDataClick = () => {
     setShowPythonData(true);
   }
 
-  const handleTableFieldNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTableFieldName(event.target.value);
-    console.log('value is:', event.target.value);
-  }
+  // freeform query on preview
+  const [queryStr, setQueryStr] = useState('');
+  const [showFreeFormQueryResult, setShowFreeFormQueryResult] = useState(false);
 
-  const handleIdFieldsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIdFields(event.target.value);
-    console.log('value is:', event.target.value);
-  }
-
-  const handleExplodedTableDataClick = () => {
-    setShowExplodedTableData(true);
-  }
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log(`Free-form query is: ${queryStr}`);
+    }, 10000); // wait for 10 secs for the typing to finish
+    return () => clearTimeout(delayDebounceFn);
+  }, [queryStr]);
 
   const handleQueryStrChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQueryStr(event.target.value);
-    console.log('value is:', event.target.value);
-  }
-
-  const handleIdColNamesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIdColumnNames(event.target.value);
-    console.log('value is:', event.target.value);
   }
 
   const handleFreeFormQueryClick = () => {
     setShowFreeFormQueryResult(true);
   }
 
+  // table fields list on preview
+  const [showTableList, setShowTableList] = useState(false);
+
+  const handleTableListClick = () => {
+    setShowTableList(true);
+  }
+
+  // explode on preview
+  const [tableFieldName, setTableFieldName] = useState('');
+  const [idFields, setIdFields] = useState('');
+  const [showExplodedTableData, setShowExplodedTableData] = useState(false);
+
+  const handleTableFieldNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTableFieldName(event.target.value);
+  }
+  
+
+  const handleIdFieldsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIdFields(event.target.value);
+  }
+
+  const handleExplodedTableDataClick = () => {
+    setShowExplodedTableData(true);
+  }
+
+  // freeform query on exploded
+  const [queryStrExploded, setQueryStrExploded] = useState('');
+  const [showFreeFormQueryExplodedResult, setShowFreeFormQueryExplodedResult] = useState(false);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log(`Free-form query (on exploded df) is: ${queryStrExploded}`);
+    }, 10000); // wait for 10 secs for the typing to finish
+    return () => clearTimeout(delayDebounceFn);
+  }, [queryStrExploded]);
+
+  const handleFreeFormQueryExplodedClick = () => {
+    setShowFreeFormQueryExplodedResult(true);
+  }
+
+  const handleQueryStrExplodedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryStrExploded(event.target.value);
+  }
+
+  // clear page
   const handleClearClick = () => {
-    setShowBookList(false);
+    showIntegratinId('');
+    showCompanyId('');
+    showFileName('');
     setShowPythonData(false);
+    setQueryStr('');
+    setShowFreeFormQueryResult(false);
+
     setShowTableList(false);
     setTableFieldName('');
+
     setIdFields('');
     setShowExplodedTableData(false);
-    setQueryStr('');
-    setIdColumnNames('');
-    setShowFreeFormQueryResult(false);
+    setQueryStrExploded('');
+    setShowFreeFormQueryExplodedResult(false);
+    
   }
 
   return (
@@ -77,20 +119,69 @@ const GetComponents = () => {
         Clear Page
       </button>
       <p></p>
-      <button onClick={handleGetBooksClick}>
-        Get book list
+      <p></p>
+      <label> IntegrationId: </label>
+      <input
+        type="text"
+        id="integrationId"
+        name="integrationId"
+        onChange={handleIntegrationIdChange}
+        value={integrationId}
+        autoComplete="off"
+      />
+      <p></p>
+      <label> CompanyId: </label>
+      <input
+        type="text"
+        id="companyId"
+        name="companyId"
+        onChange={handleCompanyIdChange}
+        value={companyId}
+        autoComplete="off"
+      />
+      <p></p>
+      <label> FileName: </label>
+      <input
+        type="text"
+        id="fileName"
+        name="fileName"
+        onChange={handleFileNameChange}
+        value={fileName}
+        autoComplete="off"
+      />
+      <p></p>
+      <button onClick={handlePreviewDataClick}>
+        Preview Python Data
       </button>
-      {showBookList ? <Books /> : <p></p>}
+      {showPythonData ? <GetData integrationId={integrationId} companyId={companyId} fileName={fileName}/> : <p></p>}
+      <p></p>
+      <label> Query: </label>
+      <p></p>
+      <label> (Example: df[df['email'] == 'john@gmail.com']) </label>
+      <input
+        type="text"
+        id="queryStr"
+        name="queryStr"
+        onChange={handleQueryStrChange}
+        value={queryStr}
+        autoComplete="off"
+      />
+      <p></p>
+      <button onClick={handleFreeFormQueryClick}>
+        Get Query Result
+      </button>
+      {showFreeFormQueryResult ? <FreeFormQuery queryStr={queryStr} isExploded="false"/> : <p></p>}
+
+
       <button onClick={handleTableListClick}>
-        Get Full List of Table Fields
+        Get Full List of Explodable Fields
       </button>
       <p></p>
       {showTableList ? <GetTableFieldNames /> : <p></p>}
       <p></p>
-      <button onClick={handlePythonDataClick}>
-        Preview Python Data
-      </button>
-      {showPythonData ? <GetData /> : <p></p>}
+
+
+
       <label> Table Name: </label>
       <input
         type="text"
@@ -115,34 +206,23 @@ const GetComponents = () => {
         Get Exploded Table Data
       </button>
       {showExplodedTableData ? <ExplodeTableField tableFieldName={tableFieldName} idFields={idFields}/> : <p></p>}
-
-      <label> DataFrame Condition: </label>
+      <p></p>
+      <label> Query Exploded Table Data: </label>
       <p></p>
       <label> (Example: df[df['email'] == 'john@gmail.com']) </label>
       <input
         type="text"
-        id="queryStr"
-        name="queryStr"
-        onChange={handleQueryStrChange}
-        value={queryStr}
+        id="queryStrExploded"
+        name="queryStrExploded"
+        onChange={handleQueryStrExplodedChange}
+        value={queryStrExploded}
         autoComplete="off"
       />
       <p></p>
-      <label> Result ID Field Names (we only display result id columns): </label>
-      <input
-        type="text"
-        id="idColumnNames"
-        name="idColumnNames"
-        onChange={handleIdColNamesChange}
-        value={idColumnNames}
-        autoComplete="off"
-      />
-      <p></p>
-      <button onClick={handleFreeFormQueryClick}>
+      <button onClick={handleFreeFormQueryExplodedClick}>
         Get Query Result
       </button>
-      {showFreeFormQueryResult ? <FreeFormQuery queryStr={queryStr} idColumnNames={idColumnNames}/> : <p></p>}
-        
+      {showFreeFormQueryExplodedResult ? <FreeFormQuery queryStrExploded={queryStrExploded} isExploded="true"/> : <p></p>}
     </div>
   );
 };

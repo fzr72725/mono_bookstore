@@ -7,17 +7,29 @@ from pandas import json_normalize
 
 def json_to_df(file_name):
     """
-    Parse a responseData json file from GCS bucket to a Pandas dataframe
+    Parse a json file from GCS bucket to a Pandas dataframe
     Args:
         file_name: json file name
     Returns:
-        df_raw
+        df
     """
     with open(file_name) as f:
         list_raw = json.load(f)
     length = len(list_raw)
     df_raw = json_normalize(list_raw)
     return df_raw
+
+def json_str_to_df(json_str):
+    """
+    Parse a json string bloc from GCS bucket to a Pandas dataframe
+    Args:
+        json_str: json blob
+    Returns:
+        df
+    """
+    list_raw = json.loads(json_str)
+    df = json_normalize(list_raw)
+    return df
 
 def find_all_table_fields(df):
     """
